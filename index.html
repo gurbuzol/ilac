@@ -123,21 +123,22 @@
         }
 
         .medicine-svg {
-            width: 52px;
-            height: 52px;
+            width: 70px;
+            height: 46px;
             flex-shrink: 0;
-            border-radius: 8px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #21262d;
-            border: 1px solid var(--border-color);
+            background: #ffffff;
+            border: 1px solid #d0d7de;
             overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
 
         .medicine-svg svg {
-            width: 44px;
-            height: 44px;
+            width: 100%;
+            height: 100%;
         }
 
         .medicine-details {
@@ -245,17 +246,137 @@
 
     <script>
         const medicines = [
-            { id: 'm1', name: 'Augmentin', type: 'twice', btn1: { label: 'Sabah 10:00', cls: 'morning', key: 'morning' }, btn2: { label: 'Gece 22:00', cls: 'night', key: 'night' }, times: ['Sabah 10:00', 'Gece 22:00'], svg: '<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2" fill="#58a6ff"/><rect x="3" y="6" width="18" height="4" fill="#a371f7"/><text x="12" y="14" font-size="6" fill="#fff" text-anchor="middle" font-weight="bold">AUG</text></svg>' },
-            { id: 'm2', name: 'Mucomax', type: 'twice', btn1: { label: 'Sabah 10:00', cls: 'morning', key: 'morning' }, btn2: { label: 'Gece 22:00', cls: 'night', key: 'night' }, times: ['Sabah 10:00', 'Gece 22:00'], svg: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#1f6feb"/><circle cx="9" cy="10" r="2" fill="#fff"/><circle cx="15" cy="14" r="1.5" fill="#fff"/><text x="12" y="20" font-size="5" fill="#fff" text-anchor="middle">MUC</text></svg>' },
-            { id: 'm3', name: 'Majezik', type: 'twice', btn1: { label: 'Sabah 10:00', cls: 'morning', key: 'morning' }, btn2: { label: 'Gece 22:00', cls: 'night', key: 'night' }, times: ['Sabah 10:00', 'Gece 22:00'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3" fill="#ffffff"/><path d="M4 14l16 5V19H4z" fill="#1f6feb"/><text x="12" y="12" font-size="5" fill="#333" text-anchor="middle" font-weight="bold">MAJ</text></svg>' },
-            { id: 'm4', name: 'Ayra Plus', type: 'single', btn1: { label: 'Öğle 13:00', cls: 'noon', key: 'dose' }, times: ['Öğle 13:00'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#f85149"/><text x="12" y="14" font-size="6" fill="#fff" text-anchor="middle" font-weight="bold">AYR</text></svg>' },
-            { id: 'm5', name: 'Lustral', type: 'single', btn1: { label: 'Öğle 13:00', cls: 'noon', key: 'dose' }, times: ['Öğle 13:00'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#1f6feb"/><path d="M4 6h6v12H4z" fill="#f0f6fc"/><text x="14" y="14" font-size="5" fill="#fff" text-anchor="middle">LUS</text></svg>' },
-            { id: 'm6', name: 'Ultrox', type: 'single', btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, times: ['Gece 00:00'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#d29922"/><text x="12" y="14" font-size="6" fill="#fff" text-anchor="middle" font-weight="bold">ULT</text></svg>' },
-            { id: 'm7', name: 'Ecopirin Pro', type: 'single', btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, times: ['Gece 00:00'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#1f6feb"/><rect x="4" y="14" width="16" height="4" fill="#d29922"/><text x="12" y="12" font-size="5" fill="#fff" text-anchor="middle">ECO</text></svg>' },
-            { id: 'm8', name: 'Benexol B12', type: 'single', btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, times: ['Gece 00:00'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#58a6ff"/><path d="M4 12c4-2 12 2 16 0" stroke="#fff" fill="none"/><text x="12" y="14" font-size="5" fill="#fff" text-anchor="middle">BNX</text></svg>' },
-            { id: 'm9', name: 'Probest', type: 'single', btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, times: ['Gece 00:00'], svg: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="6" ry="8" fill="#238636"/><text x="12" y="14" font-size="5" fill="#fff" text-anchor="middle">PRB</text></svg>' },
-            { id: 'm10', name: 'Parol', type: 'single', btn1: { label: 'Gerektiğinde', cls: 'morning', key: 'dose' }, times: ['Gerektiğinde'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#1f6feb"/><rect x="4" y="6" width="16" height="4" fill="#ffffff"/><text x="12" y="14" font-size="6" fill="#1f6feb" text-anchor="middle" font-weight="bold">PAR</text></svg>' },
-            { id: 'm11', name: 'Diafuryl Fort', type: 'single', btn1: { label: 'Gerektiğinde', cls: 'morning', key: 'dose' }, times: ['Gerektiğinde'], svg: '<svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#2ea043"/><rect x="4" y="12" width="16" height="6" fill="#1f6feb"/><text x="12" y="10" font-size="4" fill="#fff" text-anchor="middle">DIA</text></svg>' }
+            { 
+                id: 'm1', name: 'Augmentin', type: 'twice', 
+                btn1: { label: 'Sabah 10:00', cls: 'morning', key: 'morning' }, 
+                btn2: { label: 'Gece 22:00', cls: 'night', key: 'night' }, 
+                times: ['Sabah 10:00', 'Gece 22:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <rect y="8" width="70" height="12" fill="#6B21A8"/>
+                    <text x="6" y="17" fill="white" font-size="7" font-weight="bold" font-family="sans-serif">AUGMENTIN</text>
+                    <text x="6" y="32" fill="#4C1D95" font-size="5" font-weight="bold" font-family="sans-serif">BID 1000 mg</text>
+                    <line x1="6" y1="38" x2="64" y2="38" stroke="#E5E7EB" stroke-width="1"/>
+                </svg>` 
+            },
+            { 
+                id: 'm2', name: 'Mucomax', type: 'twice', 
+                btn1: { label: 'Sabah 10:00', cls: 'morning', key: 'morning' }, 
+                btn2: { label: 'Gece 22:00', cls: 'night', key: 'night' }, 
+                times: ['Sabah 10:00', 'Gece 22:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <path d="M0 24C15 20 30 28 45 24C55 21 65 25 70 24V46H0V24Z" fill="#0284C7"/>
+                    <text x="6" y="15" fill="#0369A1" font-size="7" font-weight="bold" font-family="sans-serif">Mucomax</text>
+                    <text x="6" y="21" fill="#64748B" font-size="4" font-family="sans-serif">600 mg Efervesan</text>
+                </svg>` 
+            },
+            { 
+                id: 'm3', name: 'Majezik', type: 'twice', 
+                btn1: { label: 'Sabah 10:00', cls: 'morning', key: 'morning' }, 
+                btn2: { label: 'Gece 22:00', cls: 'night', key: 'night' }, 
+                times: ['Sabah 10:00', 'Gece 22:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <path d="M70 46L30 46L70 15V46Z" fill="#2563EB"/>
+                    <text x="6" y="16" fill="#1E40AF" font-size="7" font-weight="bold" font-family="sans-serif">Majezik</text>
+                    <text x="6" y="23" fill="#DC2626" font-size="4" font-weight="bold" font-family="sans-serif">100 mg Film Tablet</text>
+                </svg>` 
+            },
+            { 
+                id: 'm4', name: 'Ayra Plus', type: 'single', 
+                btn1: { label: 'Öğle 13:00', cls: 'noon', key: 'dose' }, 
+                times: ['Öğle 13:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <line x1="6" y1="18" x2="35" y2="18" stroke="#DC2626" stroke-width="2"/>
+                    <text x="38" y="20" fill="#1E293B" font-size="5" font-weight="bold" font-family="sans-serif">PLUS</text>
+                    <text x="6" y="14" fill="#DC2626" font-size="7" font-weight="bold" font-family="sans-serif">AYRA</text>
+                    <path d="M70 46L40 46L70 25V46Z" fill="#1D4ED8"/>
+                </svg>` 
+            },
+            { 
+                id: 'm5', name: 'Lustral', type: 'single', 
+                btn1: { label: 'Öğle 13:00', cls: 'noon', key: 'dose' }, 
+                times: ['Öğle 13:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <rect x="0" y="0" width="18" height="46" fill="#0284C7"/>
+                    <text x="22" y="18" fill="#0F172A" font-size="7" font-weight="bold" font-family="sans-serif">Lustral</text>
+                    <text x="50" y="18" fill="#DC2626" font-size="5" font-weight="bold" font-family="sans-serif">50 mg</text>
+                    <text x="22" y="30" fill="#64748B" font-size="4" font-family="sans-serif">Sertralin</text>
+                </svg>` 
+            },
+            { 
+                id: 'm6', name: 'Ultrox', type: 'single', 
+                btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, 
+                times: ['Gece 00:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <rect x="6" y="12" width="58" height="4" fill="#DC2626"/>
+                    <rect x="6" y="20" width="40" height="4" fill="#D97706"/>
+                    <text x="6" y="34" fill="#0F172A" font-size="7" font-weight="bold" font-family="sans-serif">Ultrox</text>
+                </svg>` 
+            },
+            { 
+                id: 'm7', name: 'Ecopirin Pro', type: 'single', 
+                btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, 
+                times: ['Gece 00:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <rect x="0" y="10" width="70" height="14" fill="#0284C7"/>
+                    <text x="6" y="20" fill="white" font-size="6" font-weight="bold" font-family="sans-serif">Ecopirin</text>
+                    <text x="42" y="20" fill="#FDE047" font-size="5" font-weight="bold" font-family="sans-serif">Pro</text>
+                    <rect x="0" y="28" width="70" height="4" fill="#D97706"/>
+                </svg>` 
+            },
+            { 
+                id: 'm8', name: 'Benexol B12', type: 'single', 
+                btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, 
+                times: ['Gece 00:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <path d="M0 16C25 8 45 24 70 16V22C45 30 25 14 0 22V16Z" fill="#0284C7"/>
+                    <text x="6" y="34" fill="#0369A1" font-size="6" font-weight="bold" font-family="sans-serif">Benexol</text>
+                    <text x="38" y="34" fill="#0284C7" font-size="5" font-family="sans-serif">B12</text>
+                    <circle cx="60" cy="32" r="3" stroke="#0284C7" stroke-width="1"/>
+                </svg>` 
+            },
+            { 
+                id: 'm9', name: 'Probest', type: 'single', 
+                btn1: { label: 'Gece 00:00', cls: 'night', key: 'dose' }, 
+                times: ['Gece 00:00'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="#0F172A"/>
+                    <rect x="25" y="8" width="20" height="30" rx="3" fill="#16A34A"/>
+                    <rect x="27" y="10" width="16" height="8" fill="white"/>
+                    <text x="35" y="16" fill="#16A34A" font-size="4" font-weight="bold" text-anchor="middle" font-family="sans-serif">Probest</text>
+                </svg>` 
+            },
+            { 
+                id: 'm10', name: 'Parol', type: 'single', 
+                btn1: { label: 'Gerektiğinde', cls: 'morning', key: 'dose' }, 
+                times: ['Gerektiğinde'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <rect x="0" y="6" width="70" height="4" fill="#E11D48"/>
+                    <rect x="0" y="24" width="70" height="12" fill="#0284C7"/>
+                    <text x="6" y="33" fill="white" font-size="7" font-weight="bold" font-family="sans-serif">Parol</text>
+                    <text x="6" y="18" fill="#475569" font-size="4" font-family="sans-serif">500 mg Tablet</text>
+                </svg>` 
+            },
+            { 
+                id: 'm11', name: 'Diafuryl Fort', type: 'single', 
+                btn1: { label: 'Gerektiğinde', cls: 'morning', key: 'dose' }, 
+                times: ['Gerektiğinde'], 
+                svg: `<svg viewBox="0 0 70 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="70" height="46" fill="white"/>
+                    <rect x="0" y="6" width="70" height="6" fill="#16A34A"/>
+                    <rect x="0" y="34" width="70" height="6" fill="#0284C7"/>
+                    <text x="6" y="24" fill="#15803D" font-size="6" font-weight="bold" font-family="sans-serif">Diafuryl</text>
+                    <text x="36" y="24" fill="#1E3A8A" font-size="5" font-weight="bold" font-family="sans-serif">Fort</text>
+                </svg>` 
+            }
         ];
 
         let state = JSON.parse(localStorage.getItem('ilac_state_v3')) || {};
