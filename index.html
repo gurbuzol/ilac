@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>İlaç Takip Paneli</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d1117">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-color: #238636;
+            --accent-hover: #2ea043;
+            --morning-color: #d29922;
+            --night-color: #1f6feb;
+            --other-color: #8957e5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 4px 8px;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .search-filter-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        #search-input {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 10px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        #search-input:focus {
+            outline: none;
+            border-color: var(--night-color);
+        }
+
+        .medicine-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-bottom: 20px;
+        }
+
+        .medicine-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            transition: opacity 0.2s;
+        }
+
+        .medicine-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .medicine-svg {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #21262d;
+            border: 1px solid var(--border-color);
+        }
+
+        .medicine-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .medicine-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .medicine-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .btn-check {
+            background-color: #21262d;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-check.morning {
+            border-color: var(--morning-color);
+            color: var(--morning-color);
+        }
+
+        .btn-check.morning.checked {
+            background-color: var(--morning-color);
+            color: #000;
+        }
+
+        .btn-check.night {
+            border-color: var(--night-color);
+            color: var(--night-color);
+        }
+
+        .btn-check.night.checked {
+            background-color: var(--night-color);
+            color: #fff;
+        }
+
+        .btn-check.single.checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>İlaç Takip Paneli</h1>
+        <button onclick="resetAll()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:1.1rem;" title="Sıfırla">🔄</button>
+    </header>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-label">Toplam Doz</div>
+            <div class="stat-value" id="total-count">14</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Alınan</div>
+            <div class="stat-value" id="completed-count" style="color: var(--accent-hover);">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">İlerleme</div>
+            <div class="stat-value" id="progress-percent">%0</div>
+        </div>
+    </div>
+
+    <div class="search-filter-container">
+        <input type="text" id="search-input" placeholder="İlaç ara..." oninput="filterMedicines()">
+    </div>
+
+    <div class="medicine-list" id="medicine-list"></div>
+
+    <script>
+        const medicines = [
+            { id: 'm1', name: 'Augmentin', type: 'twice', times: ['Sabah 10:00', 'Gece 22:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2" fill="#58a6ff"/><rect x="3" y="6" width="18" height="4" fill="#a371f7"/><text x="12" y="14" font-size="6" fill="#fff" text-anchor="middle" font-weight="bold">AUG</text></svg>' },
+            { id: 'm2', name: 'Mucomax', type: 'twice', times: ['Sabah 10:00', 'Gece 22:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#1f6feb"/><circle cx="9" cy="10" r="2" fill="#fff"/><circle cx="15" cy="14" r="1.5" fill="#fff"/><text x="12" y="20" font-size="5" fill="#fff" text-anchor="middle">MUC</text></svg>' },
+            { id: 'm3', name: 'Majezik', type: 'twice', times: ['Sabah 10:00', 'Gece 22:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="3" fill="#ffffff"/><path d="M4 14l16 5V19H4z" fill="#1f6feb"/><text x="12" y="12" font-size="5" fill="#333" text-anchor="middle" font-weight="bold">MAJ</text></svg>' },
+            { id: 'm4', name: 'Ayra Plus', type: 'single', times: ['Öğle 13:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#f85149"/><text x="12" y="14" font-size="6" fill="#fff" text-anchor="middle" font-weight="bold">AYR</text></svg>' },
+            { id: 'm5', name: 'Lustral', type: 'single', times: ['Öğle 13:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#1f6feb"/><path d="M4 6h6v12H4z" fill="#f0f6fc"/><text x="14" y="14" font-size="5" fill="#fff" text-anchor="middle">LUS</text></svg>' },
+            { id: 'm6', name: 'Ultrox', type: 'single', times: ['Gece 00:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#d29922"/><text x="12" y="14" font-size="6" fill="#fff" text-anchor="middle" font-weight="bold">ULT</text></svg>' },
+            { id: 'm7', name: 'Ecopirin Pro', type: 'single', times: ['Gece 00:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#1f6feb"/><rect x="4" y="14" width="16" height="4" fill="#d29922"/><text x="12" y="12" font-size="5" fill="#fff" text-anchor="middle">ECO</text></svg>' },
+            { id: 'm8', name: 'Benexol B12', type: 'single', times: ['Gece 00:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#58a6ff"/><path d="M4 12c4-2 12 2 16 0" stroke="#fff" fill="none"/><text x="12" y="14" font-size="5" fill="#fff" text-anchor="middle">BNX</text></svg>' },
+            { id: 'm9', name: 'Probest', type: 'single', times: ['Gece 00:00'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="6" ry="8" fill="#238636"/><text x="12" y="14" font-size="5" fill="#fff" text-anchor="middle">PRB</text></svg>' },
+            { id: 'm10', name: 'Parol', type: 'single', times: ['Gerektiğinde'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#1f6feb"/><rect x="4" y="6" width="16" height="4" fill="#ffffff"/><text x="12" y="14" font-size="6" fill="#1f6feb" text-anchor="middle" font-weight="bold">PAR</text></svg>' },
+            { id: 'm11', name: 'Diafuryl Fort', type: 'single', times: ['Gerektiğinde'], svg: '<svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="2" fill="#2ea043"/><rect x="4" y="12" width="16" height="6" fill="#1f6feb"/><text x="12" y="10" font-size="4" fill="#fff" text-anchor="middle">DIA</text></svg>' }
+        ];
+
+        let state = JSON.parse(localStorage.getItem('ilac_state_v3')) || {};
+
+        function renderList(filteredMedicines = medicines) {
+            const listEl = document.getElementById('medicine-list');
+            listEl.innerHTML = '';
+
+            filteredMedicines.forEach(med => {
+                const card = document.createElement('div');
+                card.className = 'medicine-card';
+
+                let actionsHTML = '';
+                if (med.type === 'twice') {
+                    const morningKey = `${med.id}_morning`;
+                    const nightKey = `${med.id}_night`;
+                    const mChecked = state[morningKey] ? 'checked' : '';
+                    const nChecked = state[nightKey] ? 'checked' : '';
+                    
+                    actionsHTML = `
+                        <div class="actions">
+                            <button class="btn-check morning ${mChecked}" onclick="toggleDose('${morningKey}')">Sabah 10:00</button>
+                            <button class="btn-check night ${nChecked}" onclick="toggleDose('${nightKey}')">Gece 22:00</button>
+                        </div>
+                    `;
+                } else {
+                    const key = `${med.id}_single`;
+                    const checked = state[key] ? 'checked' : '';
+                    const label = med.times[0].includes('Gerektiğinde') ? 'Aldım' : 'İçildi';
+                    
+                    actionsHTML = `
+                        <div class="actions">
+                            <button class="btn-check single ${checked}" onclick="toggleDose('${key}')">${label}</button>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="medicine-info">
+                        <div class="medicine-svg">${med.svg}</div>
+                        <div class="medicine-details">
+                            <span class="medicine-name">${med.name}</span>
+                            <span class="medicine-time">${med.times.join(' / ')}</span>
+                        </div>
+                    </div>
+                    ${actionsHTML}
+                `;
+                
+                listEl.appendChild(card);
+            });
+
+            updateStats();
+        }
+
+        function toggleDose(key) {
+            state[key] = !state[key];
+            localStorage.setItem('ilac_state_v3', JSON.stringify(state));
+            renderList(getFilteredMedicines());
+        }
+
+        function getFilteredMedicines() {
+            const query = document.getElementById('search-input').value.toLowerCase();
+            return medicines.filter(m => m.name.toLowerCase().includes(query));
+        }
+
+        function filterMedicines() {
+            renderList(getFilteredMedicines());
+        }
+
+        function updateStats() {
+            let totalDoses = 0;
+            let completedDoses = 0;
+
+            medicines.forEach(med => {
+                if (med.type === 'twice') {
+                    totalDoses += 2;
+                    if (state[`${med.id}_morning`]) completedDoses++;
+                    if (state[`${med.id}_night`]) completedDoses++;
+                } else {
+                    totalDoses += 1;
+                    if (state[`${med.id}_single`]) completedDoses++;
+                }
+            });
+
+            document.getElementById('total-count').innerText = totalDoses;
+            document.getElementById('completed-count').innerText = completedDoses;
+            
+            const percent = totalDoses > 0 ? Math.round((completedDoses / totalDoses) * 100) : 0;
+            document.getElementById('progress-percent').innerText = `%${percent}`;
+        }
+
+        function resetAll() {
+            if(confirm('Tüm günün işaretlerini sıfırlamak istiyor musunuz?')) {
+                state = {};
+                localStorage.removeItem('ilac_state_v3');
+                renderList();
+            }
+        }
+
+        renderList();
+    </script>
+</body>
+</html>
